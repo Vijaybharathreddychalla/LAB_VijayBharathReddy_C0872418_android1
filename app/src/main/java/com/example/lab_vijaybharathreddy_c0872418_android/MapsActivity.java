@@ -2,7 +2,6 @@ package com.example.lab_vijaybharathreddy_c0872418_android;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -11,7 +10,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.telephony.CarrierConfigManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -31,12 +29,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 import java.util.Locale;
 
-import javax.crypto.spec.GCMParameterSpec;
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private int PermissionCode = 1;
     String a;
-    double loc,longi ;
+    double lati,longi ;
 
 
 
@@ -148,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             requestLocationPermission();
         }
 
-            LatLng sydney = new LatLng(loc, longi);
+            LatLng sydney = new LatLng(lati, longi);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 1.0f));
 
@@ -163,8 +159,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             if (addressList != null && addressList.size() > 0) {
-                address = "\n";
-                double loc ;
+                address = "";
+                lati = location.getLatitude();
+                longi = location.getLongitude();
 
                 // street name
                 if (addressList.get(0).getThoroughfare() != null)
@@ -175,10 +172,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     address += addressList.get(0).getPostalCode() + " ";
                 if (addressList.get(0).getAdminArea() != null)
                     address += addressList.get(0).getAdminArea();
-                if (addressList.get(0).getLatitude() != 0)
-                    loc = addressList.get(0).getLatitude();
-                if (addressList.get(0).getLongitude() != 0)
-                    longi = addressList.get(0).getLongitude();
+                a = address;
 
 
 
@@ -186,13 +180,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Exception e) {
             e.printStackTrace();
         }
-        LatLng z = new LatLng(loc,longi);
-        mMap.addMarker(new MarkerOptions().position(z).title("Marker in Sydney"));
+        LatLng z = new LatLng(lati,longi);
+        mMap.addMarker(new MarkerOptions().position(z).title(a));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(z, 7.0f));
 
-        System.out.print(a);
 
-        // addressText.setText("Address: " + address);
     }
 
 
