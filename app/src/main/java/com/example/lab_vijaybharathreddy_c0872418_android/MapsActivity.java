@@ -3,6 +3,7 @@ package com.example.lab_vijaybharathreddy_c0872418_android;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -117,6 +119,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
 
@@ -183,6 +186,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng z = new LatLng(lati,longi);
         mMap.addMarker(new MarkerOptions().position(z).title(a));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(z, 7.0f));
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(MapsActivity.this);
+                alert.setPositiveButton("Add to Favorite", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(MapsActivity.this ,MainActivity.class);
+                        startActivity(intent);
+
+                    }
+                }).create().show();
+
+                return false;
+            }
+        });
 
 
     }
