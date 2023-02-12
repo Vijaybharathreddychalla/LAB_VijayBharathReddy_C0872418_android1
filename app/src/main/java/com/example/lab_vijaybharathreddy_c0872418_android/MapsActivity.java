@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lab_vijaybharathreddy_c0872418_android.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,6 +37,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int PermissionCode = 1;
     String a;
     double lati,longi ;
+    RecyclerView recyclerview;
+
+    ArrayList<LocationList> location_list = new ArrayList<>();
+    MyAdapter MyAdapter;
+
 
 
 
@@ -120,7 +127,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
+
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
 
 
         locationListener = new LocationListener() {
@@ -193,7 +204,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 alert.setPositiveButton("Add to Favorite", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //InsertData();
+
                         Intent intent = new Intent(MapsActivity.this ,MainActivity.class);
+                        intent.putExtra("add",a);
+                        intent.putExtra("longitude",longi);
+                        intent.putExtra("latitude",lati);
+
                         startActivity(intent);
 
                     }
@@ -205,6 +222,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+//    private void InsertData() {
+//        LocationList location = new LocationList(a,longi,lati);
+//        location_list.add(location);
+//        MyAdapter adapter = new MyAdapter( this, location_list);
+//
+//        recyclerview.setAdapter(adapter);
+//    }
 
 
     }
